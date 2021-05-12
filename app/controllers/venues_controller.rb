@@ -20,7 +20,6 @@ class VenuesController < ApplicationController
     p "DONE"
     @venue = @venue.at(0)
     @the_venue = @venue
-
     render({ :template => "venue_templates/details.html.erb" })
   end
 
@@ -40,13 +39,17 @@ class VenuesController < ApplicationController
   def update
     the_id = params.fetch("venue_id")
 
-    @venue = Venue.where({ :id => the_id })
+    @venue = Venue.where({ :id => the_id }).at(0)
+    p "HEREHERERE"
+    p params.fetch("query_address")
+    p "AFTER"
+ 
     @venue.address = params.fetch("query_address")
-    @venue.name = params.fetch("Query_name")
+    @venue.name = params.fetch("query_name")
     @venue.neighborhood = params.fetch("query_neighborhood")
     @venue.save
     
-    redirect_to("/venues/#{venue.id}")
+    redirect_to("/venues/#{@venue.id}")
   end
 
   def destroy
